@@ -84,8 +84,6 @@ Do not enable this on non-retina displays, unless for screenshot purposes.";
 "FIRSTAID_CFGCHECK_PROBLEM_RESULT" = "One or more problems was found with your configuration which are known to cause problems.";
 
 "FIRSTAID_CFGCHECK_FIXED" = "Fixed!";
-"FIRSTAID_CFGCHECK_HBAO_TITLE" = "SSAO Setting is Invalid";
-"FIRSTAID_CFGCHECK_HBAO_EXP" = "The HBAO levels of SSAO (Screen Space Ambient Occlusion) are not supported on the Mac, and can cause graphics to render with black holes.";
 "FIRSTAID_CFGCHECK_TESSELATION_TITLE" = "Tesselation";
 "FIRSTAID_CFGCHECK_TESSELATION_EXP" = "Values above \"Normal\" are known to cause severe performance problems on Apple Silicon Macs, while offering no visual improvement.";
 
@@ -198,6 +196,8 @@ Do not enable this on non-retina displays, unless for screenshot purposes.";
 
 
 // Graphics Settings tab items
+"DXMT_ENABLED" = "Use direct translation of D3D11 to Metal via DXMT";
+"METALFX_SPATIAL_ENABLED" = "Enable MetalFX spatial upscaling";
 "SETTINGS_FPS_LIMIT" = "Maximum Frame Rate";
 "SETTINGS_FPS_LIMIT_PLACEHOLDER" = "0";
 "SETTINGS_FPS_LIMIT_UNITS" = "fps";
@@ -278,6 +278,7 @@ Do not enable this on non-retina displays, unless for screenshot purposes.";
 "BENCHMARK_IMPORT_CHARACTER_BUTTON" = "Import Character Appearance…";
 "BENCHMARK_SLOT_DELETE_BUTTON" = "Delete Slot…";
 "BENCHMARK_SLOT_IMPORT_BUTTON" = "Import Slot";
+"BENCHMARK_SLOT_EXPORT_BUTTON" = "Export Slot";
 "BENCHMARK_CONFIRM_SLOT_DELETE" = "Really delete character appearance?";
 "BENCHMARK_CONFIRM_SLOT_DELETE_INFORMATIVE" = "This operation cannot be undone.";
 "BENCHMARK_DISCORD_BLURB" = "Thank you for petting the Chocobo! As a reward, here are the personal characters of several of your XIV on Mac Devs and Discord personalities for you to try out in the benchmark!";

@@ -81,8 +81,6 @@ Aktiviere dies auf Nicht-Retina-Displays nur, wenn du Bildschirmfotos aufnehmen 
 "FIRSTAID_CFGCHECK_PROBLEM_RESULT" = "Es wurden ein oder mehrere Einstellungen gefunden welche bekanntermaßen zu Problemen führen können.";
 
 "FIRSTAID_CFGCHECK_FIXED" = "Behoben!";
-"FIRSTAID_CFGCHECK_HBAO_TITLE" = "Ungültige SSAO Einstellung";
-"FIRSTAID_CFGCHECK_HBAO_EXP" = "Die HBAO-Stufen von SSAO (Screen Space Ambient Occlusion) werden auf dem Mac nicht unterstützt und können dazu führen, dass Grafiken mit schwarzen Löchern dargestellt werden.";
 "FIRSTAID_CFGCHECK_TESSELATION_TITLE" = "Tesselation";
 "FIRSTAID_CFGCHECK_TESSELATION_EXP" = "Werte über \"Normal\" sind dafür bekannt, dass sie auf Apple Silicon Macs zu erheblichen Leistungsproblemen führen und keine optische Verbesserung bieten.";
 
@@ -197,6 +195,8 @@ Zusätzlich kann die Berechtigung für \"Mitteilungen\" aktiviert werden um beim
 
 
 // Graphics Settings tab items
+"DXMT_ENABLED" = "Direkte Übersetzung von D3D11 zu Metal verwenden (DXMT)";
+"METALFX_SPATIAL_ENABLED" = "MetalFX räumliches Upscaling aktivieren";
 "SETTINGS_FPS_LIMIT" = "Maximale Framerate";
 "SETTINGS_FPS_LIMIT_PLACEHOLDER" = "0";
 "SETTINGS_FPS_LIMIT_UNITS" = "fps";

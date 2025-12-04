@@ -10,7 +10,9 @@ import SwiftUI
 struct SettingsGraphicsTabView: View {
     @StateObject private var viewModel = ViewModel()
 
-    func dvvkOptionsPair(leftOption: some View, rightOption: some View) -> some View {
+    func dvvkOptionsPair(leftOption: some View, rightOption: some View)
+        -> some View
+    {
         return HStack {
             Group {
                 leftOption
@@ -31,9 +33,9 @@ struct SettingsGraphicsTabView: View {
             }
         }
         return VStack(spacing: 5) {
-            Slider(value: $viewModel.hudScale, in: 0.0 ... Double(maxScale))
+            Slider(value: $viewModel.hudScale, in: 0.0...Double(maxScale))
             HStack(spacing: 0) {
-                ForEach(0 ... maxScale, id: \.self) { index in
+                ForEach(0...maxScale, id: \.self) { index in
                     VStack {
                         Text("x\(index)")
                     }
@@ -55,61 +57,113 @@ struct SettingsGraphicsTabView: View {
             Text("SETTINGS_GRAPHICS_DXVK_HUD_HEADER")
                 .frame(maxWidth: .infinity, alignment: .center)
 
-            dvvkOptionsPair(
-                leftOption: Toggle(isOn: $viewModel.devinfo) { Text(LocalizedStringKey("SETTINGS_GRAPHICS_DEVICE_INFO")) },
-                rightOption: Toggle(isOn: $viewModel.gpuload) { Text(LocalizedStringKey("SETTINGS_GRAPHICS_GPU_LOAD")) }
-            )
-            dvvkOptionsPair(
-                leftOption: Toggle(isOn: $viewModel.fps) { Text(LocalizedStringKey("SETTINGS_GRAPHICS_FRAME_RATE_HUD")) },
-                rightOption: Toggle(isOn: $viewModel.version) { Text(LocalizedStringKey("SETTINGS_GRAPHICS_DXVK_VERSION")) }
-            )
-            dvvkOptionsPair(
-                leftOption: Toggle(isOn: $viewModel.frametimes) { Text(LocalizedStringKey("SETTINGS_GRAPHICS_FRAME_TIME")) },
-                rightOption: Toggle(isOn: $viewModel.api) { Text(LocalizedStringKey("SETTINGS_GRAPHICS_FEATURE_LEVEL")) }
-            )
-            dvvkOptionsPair(
-                leftOption: Toggle(isOn: $viewModel.submissions) { Text(LocalizedStringKey("SETTINGS_GRAPHICS_BUFFER_SUBMISSIONS")) },
-                rightOption: Toggle(isOn: $viewModel.compiler) { Text(LocalizedStringKey("SETTINGS_GRAPHICS_COMPILER")) }
-            )
-            dvvkOptionsPair(
-                leftOption: Toggle(isOn: $viewModel.drawcalls) { Text(LocalizedStringKey("SETTINGS_GRAPHICS_DRAWCALLS")) },
-                rightOption: Toggle(isOn: $viewModel.pipelines) { Text(LocalizedStringKey("SETTINGS_GRAPHICS_PIPELINES")) }
-            )
-            dvvkOptionsPair(
-                leftOption: Toggle(isOn: $viewModel.memory) { Text(LocalizedStringKey("SETTINGS_GRAPHICS_MEMORY")) },
-                rightOption: Spacer()
-            )
-            HStack {
-                Button("SETTINGS_GRAPHICS_ALL_DXVK_ON_BUTTON") {
-                    viewModel.setAllDXVKSettings(to: true)
+            Group {
+                dvvkOptionsPair(
+                    leftOption: Toggle(isOn: $viewModel.devinfo) {
+                        Text(
+                            LocalizedStringKey("SETTINGS_GRAPHICS_DEVICE_INFO"))
+                    },
+                    rightOption: Toggle(isOn: $viewModel.gpuload) {
+                        Text(LocalizedStringKey("SETTINGS_GRAPHICS_GPU_LOAD"))
+                    }
+                )
+                dvvkOptionsPair(
+                    leftOption: Toggle(isOn: $viewModel.fps) {
+                        Text(
+                            LocalizedStringKey(
+                                "SETTINGS_GRAPHICS_FRAME_RATE_HUD"))
+                    },
+                    rightOption: Toggle(isOn: $viewModel.version) {
+                        Text(
+                            LocalizedStringKey("SETTINGS_GRAPHICS_DXVK_VERSION")
+                        )
+                    }
+                )
+                dvvkOptionsPair(
+                    leftOption: Toggle(isOn: $viewModel.frametimes) {
+                        Text(LocalizedStringKey("SETTINGS_GRAPHICS_FRAME_TIME"))
+                    },
+                    rightOption: Toggle(isOn: $viewModel.api) {
+                        Text(
+                            LocalizedStringKey(
+                                "SETTINGS_GRAPHICS_FEATURE_LEVEL"))
+                    }
+                )
+                dvvkOptionsPair(
+                    leftOption: Toggle(isOn: $viewModel.submissions) {
+                        Text(
+                            LocalizedStringKey(
+                                "SETTINGS_GRAPHICS_BUFFER_SUBMISSIONS"))
+                    },
+                    rightOption: Toggle(isOn: $viewModel.compiler) {
+                        Text(LocalizedStringKey("SETTINGS_GRAPHICS_COMPILER"))
+                    }
+                )
+                dvvkOptionsPair(
+                    leftOption: Toggle(isOn: $viewModel.drawcalls) {
+                        Text(LocalizedStringKey("SETTINGS_GRAPHICS_DRAWCALLS"))
+                    },
+                    rightOption: Toggle(isOn: $viewModel.pipelines) {
+                        Text(LocalizedStringKey("SETTINGS_GRAPHICS_PIPELINES"))
+                    }
+                )
+                dvvkOptionsPair(
+                    leftOption: Toggle(isOn: $viewModel.memory) {
+                        Text(LocalizedStringKey("SETTINGS_GRAPHICS_MEMORY"))
+                    },
+                    rightOption: Spacer()
+                )
+                HStack {
+                    Button("SETTINGS_GRAPHICS_ALL_DXVK_ON_BUTTON") {
+                        viewModel.setAllDXVKSettings(to: true)
+                    }
+                    Button("SETTINGS_GRAPHICS_ALL_DXVK_OFF_BUTTON") {
+                        viewModel.setAllDXVKSettings(to: false)
+                    }
                 }
-                Button("SETTINGS_GRAPHICS_ALL_DXVK_OFF_BUTTON") {
-                    viewModel.setAllDXVKSettings(to: false)
-                }
-            }
+            }.disabled(viewModel.dxmtEnabled)
         }
         .frame(maxWidth: .infinity, alignment: .leading)
     }
 
     var body: some View {
         VStack {
-            HStack {
-                Toggle(isOn: $viewModel.fpsLimited) {
-                    Text("SETTINGS_FPS_LIMIT")
+            VStack {
+                HStack {
+                    Toggle(isOn: $viewModel.dxmtEnabled) {
+                        Text("DXMT_ENABLED")
+                    }
+                    .padding(.leading)
+                    .frame(width: 340, height: nil, alignment: .leading)
+                    Toggle(isOn: $viewModel.metalFxSpatialEnabled) {
+                        Text("METALFX_SPATIAL_ENABLED")
+                    }.disabled(!viewModel.dxmtEnabled)
+                        .padding(.leading)
+                        .frame(width: 240, height: nil, alignment: .leading)
+                    Spacer()
+                        .padding(.horizontal)
                 }
-                .padding(.leading)
-                TextField("SETTINGS_FPS_LIMIT_PLACEHOLDER", text: $viewModel.fpsLimit)
+                HStack {
+                    Toggle(isOn: $viewModel.fpsLimited) {
+                        Text("SETTINGS_FPS_LIMIT")
+                    }
+                    .padding(.leading)
+                    TextField(
+                        "SETTINGS_FPS_LIMIT_PLACEHOLDER",
+                        text: $viewModel.fpsLimit
+                    )
                     .frame(minWidth: 50)
                     .fixedSize(horizontal: true, vertical: false)
                     .disabled(!viewModel.fpsLimited)
-                Text("SETTINGS_FPS_LIMIT_UNITS")
-                    .padding(.trailing)
-                Toggle(isOn: $viewModel.asyncShaders) {
-                    Text("SETTINGS_GRAPHICS_ASYNC")
+                    Text("SETTINGS_FPS_LIMIT_UNITS")
+                        .padding(.trailing)
+                    Toggle(isOn: $viewModel.asyncShaders) {
+                        Text("SETTINGS_GRAPHICS_ASYNC")
+                    }.disabled(viewModel.dxmtEnabled)
+                        .padding(.leading)
+                    Spacer()
+                        .padding(.horizontal)
                 }
-                .padding(.leading)
-                Spacer()
-                    .padding(.horizontal)
             }
             GroupBox(label: Text("SETTINGS_GRAPHICS_HUD")) {
                 Group {
@@ -124,7 +178,7 @@ struct SettingsGraphicsTabView: View {
                             Button("SETTINGS_GRAPHICS_RESET_SCALE_BUTTON") {
                                 viewModel.hudScale = 1.0
                             }
-                        }
+                        }.disabled(viewModel.dxmtEnabled)
                         dxvkOptionsView
                     }
                 }
@@ -158,11 +212,21 @@ struct SettingsGraphicsTabView_Previews: PreviewProvider {
 
 extension SettingsGraphicsTabView {
     @MainActor class ViewModel: ObservableObject {
-        @Published var fpsLimited: Bool = Dxvk.options.maxFramerate != 0 {
+        @Published var dxmtEnabled: Bool = Settings.dxmtEnabled {
+            didSet { Settings.dxmtEnabled = dxmtEnabled }
+        }
+
+        @Published var metalFxSpatialEnabled: Bool = Settings
+            .metalFxSpatialEnabled
+        {
+            didSet { Settings.metalFxSpatialEnabled = metalFxSpatialEnabled }
+        }
+
+        @Published var fpsLimited: Bool = Settings.maxFramerate != 0 {
             didSet { updateFpsLimit() }
         }
 
-        @Published var fpsLimit: String = .init(Dxvk.options.maxFramerate) {
+        @Published var fpsLimit: String = String(Settings.maxFramerate) {
             didSet { updateFpsLimit() }
         }
 
@@ -192,20 +256,36 @@ extension SettingsGraphicsTabView {
             didSet { try! Dxvk.options.setHud(option: "fps", to: fps) }
         }
 
-        @Published var frametimes: Bool = Dxvk.options.getHud(option: "frametimes") {
-            didSet { try! Dxvk.options.setHud(option: "frametimes", to: frametimes) }
+        @Published var frametimes: Bool = Dxvk.options.getHud(
+            option: "frametimes")
+        {
+            didSet {
+                try! Dxvk.options.setHud(option: "frametimes", to: frametimes)
+            }
         }
 
-        @Published var submissions: Bool = Dxvk.options.getHud(option: "submissions") {
-            didSet { try! Dxvk.options.setHud(option: "submissions", to: submissions) }
+        @Published var submissions: Bool = Dxvk.options.getHud(
+            option: "submissions")
+        {
+            didSet {
+                try! Dxvk.options.setHud(option: "submissions", to: submissions)
+            }
         }
 
-        @Published var drawcalls: Bool = Dxvk.options.getHud(option: "drawcalls") {
-            didSet { try! Dxvk.options.setHud(option: "drawcalls", to: drawcalls) }
+        @Published var drawcalls: Bool = Dxvk.options.getHud(
+            option: "drawcalls")
+        {
+            didSet {
+                try! Dxvk.options.setHud(option: "drawcalls", to: drawcalls)
+            }
         }
 
-        @Published var pipelines: Bool = Dxvk.options.getHud(option: "pipelines") {
-            didSet { try! Dxvk.options.setHud(option: "pipelines", to: pipelines) }
+        @Published var pipelines: Bool = Dxvk.options.getHud(
+            option: "pipelines")
+        {
+            didSet {
+                try! Dxvk.options.setHud(option: "pipelines", to: pipelines)
+            }
         }
 
         @Published var memory: Bool = Dxvk.options.getHud(option: "memory") {
@@ -224,8 +304,11 @@ extension SettingsGraphicsTabView {
             didSet { try! Dxvk.options.setHud(option: "api", to: api) }
         }
 
-        @Published var compiler: Bool = Dxvk.options.getHud(option: "compiler") {
-            didSet { try! Dxvk.options.setHud(option: "compiler", to: compiler) }
+        @Published var compiler: Bool = Dxvk.options.getHud(option: "compiler")
+        {
+            didSet {
+                try! Dxvk.options.setHud(option: "compiler", to: compiler)
+            }
         }
 
         @Published var macScaling: Bool = !Wine.retina {
@@ -234,11 +317,17 @@ extension SettingsGraphicsTabView {
                     // User is turning OFF scaling mode (enabling Retina mode)
                     // This might be a bad idea...
                     let alert: NSAlert = .init()
-                    alert.messageText = NSLocalizedString("RETINA_WARNING", comment: "")
-                    alert.informativeText = NSLocalizedString("RETINA_WARNING_INFORMATIVE", comment: "")
+                    alert.messageText = NSLocalizedString(
+                        "RETINA_WARNING", comment: "")
+                    alert.informativeText = NSLocalizedString(
+                        "RETINA_WARNING_INFORMATIVE", comment: "")
                     alert.alertStyle = .warning
-                    alert.addButton(withTitle: NSLocalizedString("RETINA_ENABLE_BUTTON", comment: ""))
-                    alert.addButton(withTitle: NSLocalizedString("BUTTON_CANCEL", comment: ""))
+                    alert.addButton(
+                        withTitle: NSLocalizedString(
+                            "RETINA_ENABLE_BUTTON", comment: ""))
+                    alert.addButton(
+                        withTitle: NSLocalizedString(
+                            "BUTTON_CANCEL", comment: ""))
                     let result = alert.runModal()
                     guard result == .alertFirstButtonReturn else {
                         DispatchQueue.main.async {
@@ -268,8 +357,7 @@ extension SettingsGraphicsTabView {
         }
 
         private func updateFpsLimit() {
-            Dxvk.options.maxFramerate = fpsLimited ? Int(fpsLimit) ?? 0 : 0
-            Dxvk.options.save()
+            Settings.maxFramerate = fpsLimited ? UInt32(fpsLimit) ?? 0 : 0
         }
     }
 }
